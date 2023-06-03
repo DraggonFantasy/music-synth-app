@@ -1,52 +1,114 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>MIDI Synthesizer</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-    }
+    <title>MIDI Synthesizer</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
 
-    .synth-app {
-      text-align: center;
-    }
+        .synth-app {
+            text-align: center;
+        }
 
-    .key-select {
-      margin-bottom: 20px;
-    }
-  </style>
+        .key-select {
+            margin-bottom: 20px;
+        }
+
+        #keyboard {
+            display: flex;
+            justify-content: center;
+        }
+
+        .key {
+            width: 40px;
+            height: 150px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .active {
+            background-color: yellow !important;
+        }
+
+        .white {
+            background-color: white;
+            border: 1px solid #999;
+        }
+
+        .black {
+            background-color: black;
+            border: 1px solid #666;
+            position: relative;
+            margin-left: -12px;
+            margin-right: -12px;
+            width: 24px;
+            height: 100px;
+            z-index: 1;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="synth-app">
-    <h1>MIDI Synthesizer</h1>
-    <div class="key-select">
-      <label for="keys">Select a key:</label>
-      <select id="keys">
-        <option value="C">C</option>
-        <option value="C#">C#</option>
-        <option value="D">D</option>
-        <option value="D#">D#</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="F#">F#</option>
-        <option value="G">G</option>
-        <option value="G#">G#</option>
-        <option value="A">A</option>
-        <option value="A#">A#</option>
-        <option value="B">B</option>
-      </select>
+    <div class="synth-app">
+        <h1>MIDI Synthesizer</h1>
+        <div class="key-select">
+            <label for="keys">Select a key:</label>
+            <select id="keys">
+                <option value="C">C</option>
+                <option value="C#">C#</option>
+                <option value="D">D</option>
+                <option value="D#">D#</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="F#">F#</option>
+                <option value="G">G</option>
+                <option value="G#">G#</option>
+                <option value="A">A</option>
+                <option value="A#">A#</option>
+                <option value="B">B</option>
+            </select>
+        </div>
+        <p>Press a number key to play a note.</p>
+        <div id="keyboard">
+            <div class="key white" data-note="C3"></div>
+            <div class="key black" data-note="C#3"></div>
+            <div class="key white" data-note="D3"></div>
+            <div class="key black" data-note="D#3"></div>
+            <div class="key white" data-note="E3"></div>
+            <div class="key white" data-note="F3"></div>
+            <div class="key black" data-note="F#3"></div>
+            <div class="key white" data-note="G3"></div>
+            <div class="key black" data-note="G#3"></div>
+            <div class="key white" data-note="A3"></div>
+            <div class="key black" data-note="A#3"></div>
+            <div class="key white" data-note="B3"></div>
+            <div class="key white" data-note="C4"></div>
+            <div class="key black" data-note="C#4"></div>
+            <div class="key white" data-note="D4"></div>
+            <div class="key black" data-note="D#4"></div>
+            <div class="key white" data-note="E4"></div>
+            <div class="key white" data-note="F4"></div>
+            <div class="key black" data-note="F#4"></div>
+            <div class="key white" data-note="G4"></div>
+            <div class="key black" data-note="G#4"></div>
+            <div class="key white" data-note="A4"></div>
+            <div class="key black" data-note="A#4"></div>
+            <div class="key white" data-note="B4"></div>
+        </div>
+
     </div>
-    <p>Press a number key to play a note.</p>
-  </div>
 
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/midi/0.0.0/midi.js"></script> -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/webmidi@2.5.2"></script> -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/midi/0.0.0/midi.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/webmidi@2.5.2"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
