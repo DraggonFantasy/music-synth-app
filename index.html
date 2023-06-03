@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MIDI Synthesizer</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    .synth-app {
+      text-align: center;
+    }
+
+    .key-select {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="synth-app">
+    <h1>MIDI Synthesizer</h1>
+    <div class="key-select">
+      <label for="keys">Select a key:</label>
+      <select id="keys">
+        <option value="C">C</option>
+        <option value="C#">C#</option>
+        <option value="D">D</option>
+        <option value="D#">D#</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="F#">F#</option>
+        <option value="G">G</option>
+        <option value="G#">G#</option>
+        <option value="A">A</option>
+        <option value="A#">A#</option>
+        <option value="B">B</option>
+      </select>
+    </div>
+    <p>Press a number key to play a note.</p>
+  </div>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/midi/0.0.0/midi.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/webmidi@2.5.2"></script> -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
