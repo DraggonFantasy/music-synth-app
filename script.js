@@ -1,4 +1,5 @@
 function getDegree(rootNote, degree, scaleType, octave = 0) {
+    if (rootNote.length == 1 || (rootNote[rootNote.length - 1] == "#")) rootNote += 3;
     // Whole and half step mapping
     const WHOLE_STEP = 2;
     const HALF_STEP = 1;
@@ -36,7 +37,8 @@ function getChord(rootNote, degree, chordType, scaleType) {
     // let scale = scaleType === 'major' ? majorScale : minorScale;
 
     // Get the root note of the chord
-    rootNote += 3;
+    if (rootNote.length == 1 || (rootNote[rootNote.length - 1] == "#")) rootNote += 3;
+    console.log("getChord", rootNote, degree, chordType, scaleType);
     let chordRootNote = getDegree(rootNote, degree, scaleType);
 
     // Get the third and fifth of the chord
@@ -64,6 +66,32 @@ function getChord(rootNote, degree, chordType, scaleType) {
     return [chordRootNote, third, fifth];
 }
 
+function getChordInversions(rootNote, chordType, inversions) {
+    if (rootNote.length == 1 || (rootNote[rootNote.length - 1] == "#")) rootNote += 3;
+    const chordRootNote = getChord(rootNote, 1, chordType, 'major')[0];
+    console.log("chordRootNote", chordRootNote);
+
+    const chordNotes = getChord(chordRootNote, 1, chordType, 'major');
+    console.log("chordNotes", chordNotes);
+
+    if (inversions <= 0 || inversions >= chordNotes.length) {
+        return chordNotes; // Return the original chord if inversions are out of range
+    }
+
+    const invertedChord = chordNotes.slice(); // Copy the original chord
+
+    for (let i = 0; i < inversions; i++) {
+        const firstNote = invertedChord.shift(); // Remove the first note
+        const newNote = getDegree(firstNote, 1, 'major', 1); // Transpose the first note up one octave
+        invertedChord.push(newNote); // Add the first note transposed to the next octave to the end
+    }
+
+    console.log(invertedChord);
+    return invertedChord;
+}
+
+
+
 
 function getPressedKeys(keysPressed) {
     return Object.entries(keysPressed)
@@ -81,14 +109,27 @@ const keyToDegreeMapping = {
 // Key to chord type mapping
 const keyToChordTypeMapping = {
     '1': 'major', '2': 'major', '3': 'major', '4': 'major', '5': 'major', '6': 'major', '7': 'major', '8': 'major', '9': 'major', '0': 'major',
-    'q': 'minor', 'w': 'minor', 'e': 'minor', 'r': 'minor', 't': 'minor', 'y': 'minor', 'u': 'minor', 'i': 'minor', 'o': 'minor',
-    'a': 'augmented', 's': 'augmented', 'd': 'augmented', 'f': 'augmented', 'g': 'augmented', 'h': 'augmented', 'j': 'augmented', 'k': 'augmented', 'l': 'augmented',
-    'z': 'diminished', 'x': 'diminished', 'c': 'diminished', 'v': 'diminished', 'b': 'diminished', 'n': 'diminished', 'm': 'diminished', ',': 'diminished', '.': 'diminished'
+    'q': 'minor', 'w': 'minor', 'e': 'minor', 'r': 'minor', 't': 'minor', 'y': 'minor', 'u': 'minor', 'i': 'minor', 'o': 'minor', 'p': 'minor',
+    'a': 'augmented', 's': 'augmented', 'd': 'augmented', 'f': 'augmented', 'g': 'augmented', 'h': 'augmented', 'j': 'augmented', 'k': 'augmented', 'l': 'augmented', ';': 'augmented',
+    'z': 'diminished', 'x': 'diminished', 'c': 'diminished', 'v': 'diminished', 'b': 'diminished', 'n': 'diminished', 'm': 'diminished', ',': 'diminished', '.': 'diminished', '/': 'diminished'
+};
+const keyToInversionMapping = {
+    '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '0': 0,
+    'q': 1, 'w': 1, 'e': 1, 'r': 1, 't': 1, 'y': 1, 'u': 1, 'i': 1, 'o': 1, 'p': 1,
+    'a': 2, 's': 2, 'd': 2, 'f': 2, 'g': 2, 'h': 2, 'j': 2, 'k': 2, 'l': 2, ';': 2,
+    'z': 3, 'x': 3, 'c': 3, 'v': 3, 'b': 3, 'n': 3, 'm': 3, ',': 3, '.': 3, '/': 3
 };
 
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    function getCurrentMode() {
+        const checkedRadio = document.querySelector('.mode-switcher input[type="radio"]:checked');
+        if (checkedRadio) {
+            return checkedRadio.value;
+        }
+        return null; // No mode selected
+    }
     const keySelect = document.getElementById('keys');
     let currentKey = keySelect.value;
 
@@ -98,9 +139,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // let synth = new Tone.Synth().toDestination();
 
-    let synth = new Tone.PolySynth(Tone.Synth).toDestination();
+    // let synth = new Tone.PolySynth(Tone.Synth)
+    let synth = new Tone.PolySynth(Tone.MonoSynth, {
+        oscillator: {
+            type: 'triangle'
+        },
+        envelope: {
+            attack: 0.03,
+            decay: 0.7,
+            sustain: 0.2,
+            release: 1
+        },
+        filterEnvelope: {
+            attack: 0.01,
+            decay: 0,
+            sustain: 0.2,
+            release: 0.3
+        }
+    }).toDestination();
+
+
+
+
+
+
+
     synth.volume.value = -20;
-    const volume = new Tone.Volume(-12).toDestination();
+    const volume = new Tone.Volume(-6).toDestination();
 
     volume.volume.value = -100;
     synth.connect(volume);
@@ -110,18 +175,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('keydown', (event) => {
         let key = event.key;
+        if (key == '=') {
+            console.log("!!!")
+            // synth.voices.forEach(function (voice) {
+            //     voice.envelope.attack = 0.5;
+            // });
+            synth.set({ "envelope.attack": 1, "envelope.decay": 0, "envelope.sustain": 0.1 });
+        }
+        let mode = getCurrentMode()
+        console.log(mode)
+
 
         if (keyToDegreeMapping[key]) {
             let degree = keyToDegreeMapping[key];
             let chordType = keyToChordTypeMapping[key];
+            let inversion = keyToInversionMapping[key];
 
             if (!keysPressed[key]) {
                 keysPressed[key] = true;
-                let chordNotes = getChord(currentKey, degree, chordType, 'major'); // assumes we are using major scale
+                let chordNotes;
+                if (mode == "chordType") {
+                    chordNotes = getChord(currentKey, degree, chordType, 'major'); // assumes we are using major scale
+                } else {
+                    let rootNote = getDegree(currentKey, degree, "major", 0);
+                    chordNotes = getChordInversions(rootNote, "major", inversion);
+                }
                 synth.triggerAttack(chordNotes);
 
                 chordNotes.forEach((n) => {
-                    console.log(n)
                     const noteKey = document.querySelector(`[data-note="${n}"]`);
                     noteKey.classList.add('active');
                 })
@@ -132,6 +213,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // The keyup event
     window.addEventListener('keyup', (event) => {
         let key = event.key;
+        let mode = getCurrentMode()
+        // synth.volume.linearRampToValueAtTime(-50, "5"); // Ramp to -12 dB over 2 seconds
 
         if (keyToDegreeMapping[key]) {
             keysPressed[key] = false;
@@ -141,7 +224,14 @@ document.addEventListener('DOMContentLoaded', function () {
             // }
             let degree = keyToDegreeMapping[key];
             let chordType = keyToChordTypeMapping[key];
-            let chordNotes = getChord(currentKey, degree, chordType, 'major'); // assumes we are using major scale
+            let inversion = keyToInversionMapping[key];
+            let chordNotes;
+            if (mode == "chordType") {
+                chordNotes = getChord(currentKey, degree, chordType, 'major'); // assumes we are using major scale
+            } else {
+                let rootNote = getDegree(currentKey, degree, "major", 0);
+                chordNotes = getChordInversions(rootNote, "major", inversion);
+            }
             synth.triggerRelease(chordNotes);
             chordNotes.forEach((n) => {
                 const noteKey = document.querySelector(`[data-note="${n}"]`);

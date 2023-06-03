@@ -51,6 +51,45 @@
             height: 100px;
             z-index: 1;
         }
+
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .mode-switcher label {
+            margin-right: 10px;
+        }
+
+        #virtual-keyboard {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .keyboard-key {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            margin: 2px;
+            cursor: pointer;
+            background-color: white;
+            border: 1px solid #999;
+        }
+
+        .space {
+            width: 500px;
+        }
     </style>
 </head>
 
@@ -74,8 +113,26 @@
                 <option value="B">B</option>
             </select>
         </div>
-        <p>Press a number key to play a note.</p>
+        <p>Press a number key to play a chord.</p>
+        <div class="mode-switcher">
+            <label for="chordTypeMode">Chord Type</label>
+            <input type="radio" id="chordTypeMode" name="mode" value="chordType" checked>
+            <label for="chordInversionMode">Chord Inversion</label>
+            <input type="radio" id="chordInversionMode" name="mode" value="chordInversion">
+        </div>
         <div id="keyboard">
+            <div class="key white" data-note="C2"></div>
+            <div class="key black" data-note="C#2"></div>
+            <div class="key white" data-note="D2"></div>
+            <div class="key black" data-note="D#2"></div>
+            <div class="key white" data-note="E2"></div>
+            <div class="key white" data-note="F2"></div>
+            <div class="key black" data-note="F#2"></div>
+            <div class="key white" data-note="G2"></div>
+            <div class="key black" data-note="G#2"></div>
+            <div class="key white" data-note="A2"></div>
+            <div class="key black" data-note="A#2"></div>
+            <div class="key white" data-note="B2"></div>
             <div class="key white" data-note="C3"></div>
             <div class="key black" data-note="C#3"></div>
             <div class="key white" data-note="D3"></div>
@@ -100,6 +157,86 @@
             <div class="key white" data-note="A4"></div>
             <div class="key black" data-note="A#4"></div>
             <div class="key white" data-note="B4"></div>
+            <div class="key white" data-note="C5"></div>
+            <div class="key black" data-note="C#5"></div>
+            <div class="key white" data-note="D5"></div>
+            <div class="key black" data-note="D#5"></div>
+            <div class="key white" data-note="E5"></div>
+            <div class="key white" data-note="F5"></div>
+            <div class="key black" data-note="F#5"></div>
+            <div class="key white" data-note="G5"></div>
+            <div class="key black" data-note="G#5"></div>
+            <div class="key white" data-note="A5"></div>
+            <div class="key black" data-note="A#5"></div>
+            <div class="key white" data-note="B5"></div>
+        </div>
+
+
+        <div id="virtual-keyboard" tabindex="0">
+            <div class="row">
+                <div class="keyboard-key" data-keyboard-key="Backquote">`</div>
+                <div class="keyboard-key" data-keyboard-key="Digit1">1</div>
+                <div class="keyboard-key" data-keyboard-key="Digit2">2</div>
+                <div class="keyboard-key" data-keyboard-key="Digit3">3</div>
+                <div class="keyboard-key" data-keyboard-key="Digit4">4</div>
+                <div class="keyboard-key" data-keyboard-key="Digit5">5</div>
+                <div class="keyboard-key" data-keyboard-key="Digit6">6</div>
+                <div class="keyboard-key" data-keyboard-key="Digit7">7</div>
+                <div class="keyboard-key" data-keyboard-key="Digit8">8</div>
+                <div class="keyboard-key" data-keyboard-key="Digit9">9</div>
+                <div class="keyboard-key" data-keyboard-key="Digit0">0</div>
+                <div class="keyboard-key" data-keyboard-key="Minus">-</div>
+                <div class="keyboard-key" data-keyboard-key="Equal">=</div>
+                <div class="keyboard-key backspace" data-keyboard-key="Backspace"></div>
+            </div>
+            <div class="row">
+                <div class="keyboard-key tab" data-keyboard-key="Tab"></div>
+                <div class="keyboard-key" data-keyboard-key="KeyQ">Q</div>
+                <div class="keyboard-key" data-keyboard-key="KeyW">W</div>
+                <div class="keyboard-key" data-keyboard-key="KeyE">E</div>
+                <div class="keyboard-key" data-keyboard-key="KeyR">R</div>
+                <div class="keyboard-key" data-keyboard-key="KeyT">T</div>
+                <div class="keyboard-key" data-keyboard-key="KeyY">Y</div>
+                <div class="keyboard-key" data-keyboard-key="KeyU">U</div>
+                <div class="keyboard-key" data-keyboard-key="KeyI">I</div>
+                <div class="keyboard-key" data-keyboard-key="KeyO">O</div>
+                <div class="keyboard-key" data-keyboard-key="KeyP">P</div>
+                <div class="keyboard-key" data-keyboard-key="BracketLeft">[</div>
+                <div class="keyboard-key" data-keyboard-key="BracketRight">]</div>
+                <div class="keyboard-key" data-keyboard-key="Backslash">\</div>
+            </div>
+            <div class="row">
+                <div class="keyboard-key caps-lock" data-keyboard-key="CapsLock"></div>
+                <div class="keyboard-key" data-keyboard-key="KeyA">A</div>
+                <div class="keyboard-key" data-keyboard-key="KeyS">S</div>
+                <div class="keyboard-key" data-keyboard-key="KeyD">D</div>
+                <div class="keyboard-key" data-keyboard-key="KeyF">F</div>
+                <div class="keyboard-key" data-keyboard-key="KeyG">G</div>
+                <div class="keyboard-key" data-keyboard-key="KeyH">H</div>
+                <div class="keyboard-key" data-keyboard-key="KeyJ">J</div>
+                <div class="keyboard-key" data-keyboard-key="KeyK">K</div>
+                <div class="keyboard-key" data-keyboard-key="KeyL">L</div>
+                <div class="keyboard-key" data-keyboard-key="Semicolon">;</div>
+                <div class="keyboard-key" data-keyboard-key="Quote">'</div>
+                <div class="keyboard-key enter" data-keyboard-key="Enter"></div>
+            </div>
+            <div class="row">
+                <div class="keyboard-key shift-left" data-keyboard-key="ShiftLeft"></div>
+                <div class="keyboard-key" data-keyboard-key="KeyZ">Z</div>
+                <div class="keyboard-key" data-keyboard-key="KeyX">X</div>
+                <div class="keyboard-key" data-keyboard-key="KeyC">C</div>
+                <div class="keyboard-key" data-keyboard-key="KeyV">V</div>
+                <div class="keyboard-key" data-keyboard-key="KeyB">B</div>
+                <div class="keyboard-key" data-keyboard-key="KeyN">N</div>
+                <div class="keyboard-key" data-keyboard-key="KeyM">M</div>
+                <div class="keyboard-key" data-keyboard-key="Comma">,</div>
+                <div class="keyboard-key" data-keyboard-key="Period">.</div>
+                <div class="keyboard-key" data-keyboard-key="Slash">/</div>
+                <div class="keyboard-key shift-right" data-keyboard-key="ShiftRight"></div>
+            </div>
+            <div class="row">
+                <div class="keyboard-key space" data-keyboard-key="Space"></div>
+            </div>
         </div>
 
     </div>
